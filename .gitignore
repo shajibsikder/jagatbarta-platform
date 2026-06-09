@@ -28,3 +28,31 @@ Homestead.json
 .env.production
 .phpactor.json
 auth.json
+
+# User uploaded content
+storage/app/uploads/
+public/uploads/
+uploads/
+
+# Analytics & tracking data
+storage/logs/analytics/
+traffic_logs/
+visitor_logs/
+
+# Cache & sessions
+storage/framework/cache/
+storage/framework/sessions/
+storage/framework/views/
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# backups
+*.bak
+*.sql
+*.zip
+*.tar
+*.tar.gz
