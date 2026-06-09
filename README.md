@@ -143,38 +143,31 @@ Jagatbarta aims to become a **global content publishing and earning ecosystem**,
 
 ## 🤝 Contribution
 
-This project is currently under active development.
+This repository is maintained for product documentation and portfolio purposes.
 
-If you want to contribute:
-- Fork the repository
-- Create a feature branch
-- Submit a pull request
+The source code is private and not open for public contributions.
 
----
+## 🚦 Project Status
 
-## 📄 License
+✅ Production Ready
 
-This project is licensed under the **MIT License**.
+Jagatbarta is actively maintained and available to real users.
 
----
+## 🌐 Live Platform
 
-## 🌐 Live Demo
-
-> [visit now...
-](https://jagatbarta.top/)
----
+https://jagatbarta.top
 
 ## 👨‍💻 Author
 
-**Jagatbarta Development Team**  
-Built with passion for scalable digital media platforms.
+Md Shajib Sikder
+
+Founder & CEO, Weekmotion Tech
+
+## 📄 License
+
+All Rights Reserved © Jagatbarta
+
+This repository contains documentation and project information only.
+The source code is proprietary and not publicly available.
 
 ---
-
-## ⭐ Support
-
-If you like this project, consider giving it a star ⭐ on GitHub.
-
-
-
-## 🧩 System Architecture
