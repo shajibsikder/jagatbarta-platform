@@ -2,6 +2,10 @@
 
 > Publish. Get Approved. Rank on Google. Earn from Real Traffic.
 
+![Status](https://img.shields.io/badge/status-active-success)
+![Platform](https://img.shields.io/badge/platform-web-blue)
+![License](https://img.shields.io/badge/license-all%20rights%20reserved-red)
+
 ---
 
 ## 🚀 About The Project
@@ -13,6 +17,15 @@ Every article goes through an **admin approval system** before being published. 
 This platform is designed to be a scalable **digital media + earning ecosystem**.
 
 ---
+
+## 📚 Documentation
+
+Explore full system details:
+
+- 📄 Features → `/docs/FEATURES.md`
+- 🧠 Architecture → `/docs/ARCHITECTURE.md`
+- 💰 Earnings System → `/docs/EARNING-SYSTEM.md`
+- 🔐 Security → `/docs/SECURITY.md`
 
 ## ✨ Key Features
 
@@ -154,13 +167,11 @@ The source code is private and not open for public contributions.
 Jagatbarta is actively maintained and available to real users.
 
 ## 🌐 Live Platform
-
 https://jagatbarta.top
 
 ## 👨‍💻 Author
 
 Md Shajib Sikder
-
 Founder & CEO, Weekmotion Tech
 
 ## 📄 License
