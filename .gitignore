@@ -22,15 +22,19 @@ yarn-error.log
 # Laravel Core
 # =====================
 bootstrap/compiled.php
-app/storage/
+bootstrap/cache/*.php
 
 # =====================
 # Storage
 # =====================
+storage/
 storage/*.key
 storage/app/uploads/
+storage/app/public/uploads/
 public/storage
 public_html/storage
+public/uploads/
+uploads/
 
 # Framework cache
 storage/framework/cache/
