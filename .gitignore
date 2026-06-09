@@ -1,58 +1,80 @@
+# =====================
+# Dependencies
+# =====================
 /vendor/
 node_modules/
+
+# =====================
+# Environment
+# =====================
+.env
+.env.backup
+.env.production
+
+# =====================
+# Logs
+# =====================
 npm-debug.log
 yarn-error.log
+.phpunit.result.cache
 
-# Laravel 4 specific
+# =====================
+# Laravel Core
+# =====================
 bootstrap/compiled.php
 app/storage/
 
-# Laravel 5 & Lumen specific
-public/storage
-public/hot
-
-# Laravel 5 & Lumen specific with changed public path
-public_html/storage
-public_html/hot
-
+# =====================
+# Storage
+# =====================
 storage/*.key
-.env
-Homestead.yaml
-Homestead.json
-/.vagrant
-.phpunit.result.cache
-
-/public/build
-/storage/pail
-.env.backup
-.env.production
-.phpactor.json
-auth.json
-
-# User uploaded content
 storage/app/uploads/
-public/uploads/
-uploads/
+public/storage
+public_html/storage
 
-# Analytics & tracking data
-storage/logs/analytics/
-traffic_logs/
-visitor_logs/
-
-# Cache & sessions
+# Framework cache
 storage/framework/cache/
 storage/framework/sessions/
 storage/framework/views/
 
-# OS / IDE
+# =====================
+# Build
+# =====================
+public/build
+public/hot
+
+# =====================
+# Local tools
+# =====================
+Homestead.yaml
+Homestead.json
+/.vagrant
+
+# =====================
+# IDE / OS
+# =====================
+.vscode/
+.idea/
 .DS_Store
 Thumbs.db
-.idea/
-.vscode/
 
-# backups
+# =====================
+# Analytics / Logs
+# =====================
+storage/logs/
+visitor_logs/
+traffic_logs/
+
+# =====================
+# Backups
+# =====================
 *.bak
-*.sql
 *.zip
-*.tar
+*.sql
 *.tar.gz
+
+# =====================
+# Security
+# =====================
+auth.json
+phpactor.json
