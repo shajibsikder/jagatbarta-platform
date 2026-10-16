@@ -1,124 +1,99 @@
-# 🌍 Jagatbarta – Scalable News Platform & E-E-A-T Monetization Ecosystem
+# Jagatbarta Platform
 
-![Jagatbarta Banner](https://img.shields.io/badge/Jagatbarta-Enterprise%20Ecosystem-FF4500?style=for-the-badge&logo=google-chrome&logoColor=white)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
+[![Runtime](https://img.shields.io/badge/Node.js-v20%2B-green?style=flat-square)](https://nodejs.org/)
+[![Tests](https://img.shields.io/badge/Tests-8%2F8%20Passing-brightgreen?style=flat-square)](packages/core-engine)
+[![Production](https://img.shields.io/badge/Production-jagatbarta.com-teal?style=flat-square)](https://jagatbarta.com)
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=flat-square)](LICENSE)
-[![Node.js Version](https://img.shields.io/badge/Node.js-v20%2B-339933?style=flat-square&logo=node.js)](https://nodejs.org/)
-[![Build & Tests](https://img.shields.io/badge/Unit%20Tests-8%2F8%20Passing-brightgreen?style=flat-square&logo=githubactions)](packages/core-engine)
-[![Architecture](https://img.shields.io/badge/Architecture-Modular%20Microservices-blue?style=flat-square)](docs/ARCHITECTURE.md)
-[![E-E-A-T Compliant](https://img.shields.io/badge/Google-E--E--A--T%20Schema-FFD700?style=flat-square&logo=google)](docs/SECURITY.md)
-[![Production Live](https://img.shields.io/badge/Live%20Platform-jagatbarta.com-00C7B7?style=flat-square&logo=safari)](https://jagatbarta.com)
-
-> **Scalable Multi-User Publishing • Automated News Curation • Anti-Fraud CPM Analytics • Google AdSense E-E-A-T Compliance**  
-> Jagatbarta is a high-performance digital publishing platform designed for modern online media. It bridges live news aggregation, human-voice AI editorial pipelines, strict AdSense policy compliance, and verified engagement monetization.
+A high-concurrency digital publishing platform and monetization ecosystem designed for scalable media operations, automated news curation, anti-fraud engagement analytics, and strict Google AdSense E-E-A-T compliance.
 
 ---
 
-## 🚀 Key Engineering Highlights
+## Overview
 
-* **Automated News Ingestion Microservice:** High-concurrency RSS parser streaming live feeds from top national and international publishers (Google News, Prothom Alo, Daily Star, etc.).
-* **Zero-Hallucination AdSense Prompt Pipeline:** Algorithmic prompt compiler strictly enforcing Google Search Central Helpful Content guidelines, prohibiting AI hallucinations, and formatting pure semantic HTML with Table of Contents (TOC) and FAQ Accordions.
-* **E-E-A-T Structured Data Schema Engine:** Emits dynamic `NewsArticle` JSON-LD schemas linking author biographies and verified social credentials (`sameAs` array) to maximize Google Search authority.
-* **Anti-Fraud CPM Monetization Engine:** Mathematical CPM calculation engine featuring HMAC-SHA256 IP anonymization (GDPR compliance), reading dwell-time verification (>= 12s), and automated bot traffic filtering.
-* **100% Native Unit Testing:** Fully tested core engine utilizing Node's native test runner with 0 external dependencies.
+Jagatbarta is structured as a modular digital publishing ecosystem that addresses three critical challenges in online media:
+
+1. **Automated News Ingestion & Editorial Safety:** Live aggregation from national news wires coupled with an AI editorial compiler that enforces human journalistic voice and zero-hallucination policies.
+2. **Monetization & Anti-Fraud Infrastructure:** A country-tiered CPM revenue engine with HMAC-SHA256 IP anonymization, minimum reading dwell-time validation, and automated bot mitigation.
+3. **Search Authority & E-E-A-T Architecture:** Dynamic injection of Schema.org `NewsArticle` JSON-LD structured data linking verified author credentials, microdata, and chunked XML sitemaps.
 
 ---
 
-## 🧠 System Architecture
+## System Architecture
 
 ```mermaid
-flowchart TD
-    subgraph ClientLayer ["1. Client & Ingress Layer"]
-        A1["Desktop & Mobile Readers"] --> B1["Cloudflare CDN & Edge Caching"]
-        A2["Citizen Journalists & Authors"] --> B1
-        B1 --> B2["Nginx Reverse Proxy & SSL"]
-    end
+graph TD
+    Readers[Desktop and Mobile Readers] --> Edge[Cloudflare CDN and Edge Caching]
+    Authors[Citizen Journalists and Editors] --> Edge
+    Edge --> Nginx[Nginx Reverse Proxy]
 
-    subgraph AppLayer ["2. Application Services"]
-        B2 --> C1["Blade SSR & Presentation Layer"]
-        B2 --> C2["Laravel Core Platform API"]
-        B2 --> C3["Node.js News Engine Microservice (:3000)"]
-    end
+    Nginx --> Presentation[Blade SSR and Web UI]
+    Nginx --> PlatformAPI[Laravel Core Platform API]
+    Nginx --> NewsEngine[Node.js News Engine Microservice]
 
-    subgraph CoreEngine ["3. @jagatbarta/core-engine"]
-        C2 --> D1["FraudDetector (Anti-Bot & IP Hash)"]
-        C2 --> D2["CpmCalculator (Dynamic Tier Revenue)"]
-        C2 --> D3["EeatSchemaBuilder (NewsArticle JSON-LD)"]
-    end
+    NewsEngine --> Feeds[Live Wire RSS Feeds]
+    NewsEngine --> PromptGen[AdSense-Safe Editorial Compiler]
 
-    subgraph StorageLayer ["4. Data & Persistence"]
-        C2 --> E1[("MySQL Primary Database")]
-        C2 --> E2[("Redis Caching & Session Store")]
-    end
+    PlatformAPI --> FraudShield[Fraud Detector and IP Hash]
+    PlatformAPI --> CpmEngine[Tiered CPM Revenue Calculator]
+    PlatformAPI --> SchemaGen[E-E-A-T NewsArticle Schema]
 
-    subgraph ExternalEcosystem ["5. External Search & Monetization"]
-        C1 --> F1["Google Search Engine (Chunked Sitemaps)"]
-        C1 --> F2["Google AdSense (Policy Compliant Placements)"]
-        C3 --> F3["RSS Feeds (Prothom Alo, Google News BD)"]
-    end
+    PlatformAPI --> MySQL[(MySQL 8.0 Primary DB)]
+    PlatformAPI --> Redis[(Redis Cache and Session Store)]
+
+    Presentation --> GoogleBot[Google Search Engine]
+    Presentation --> AdSense[Google AdSense]
 ```
 
 ---
 
-## 📂 Repository Structure
+## Core Modules
+
+### 1. News Engine Microservice (`services/news-engine`)
+* **Real-time Feed Streaming:** Parses high-frequency RSS feeds from leading national dailies (Google News BD, Prothom Alo, Daily Star).
+* **AdSense Policy Guard:** Automatically screens topics against prohibited sensitive keywords to protect publisher advertising health.
+* **Semantic Content Compiler:** Compiles publication-ready HTML with automated Table of Contents anchors and FAQ schemas.
+
+### 2. Core Business Engine (`packages/core-engine`)
+* **`FraudDetector`:** Validates engaged human reading sessions using dwell-time thresholds (>= 12 seconds), scroll depth metrics, and automated bot User-Agent heuristics.
+* **`CpmCalculator`:** Computes weighted CPM revenue based on geographical tiers (Tier 1: US/UK/CA, Tier 2: EU/Gulf, Tier 3: BD/IN) and device modifiers.
+* **`EeatSchemaBuilder`:** Produces Google Search Central-compliant `NewsArticle` JSON-LD schemas linking author credentials and social verification arrays.
+
+---
+
+## Repository Structure
 
 ```text
 jagatbarta-platform/
-├── docs/                           # Enterprise Technical Documentation
-│   ├── ARCHITECTURE.md             # Detailed System Design & Component Specs
-│   ├── EARNING-SYSTEM.md           # CPM Formulation & Anti-Fraud Algorithms
-│   ├── SECURITY.md                 # RBAC, GDPR IP Hashing & AdSense Policies
-│   ├── API-SPECIFICATION.md        # REST API Endpoints & Request/Response Payloads
-│   ├── FEATURES.md                 # Complete Functional Feature Breakdown
-│   └── USER-FLOW.md                # Citizen Journalist Publishing Workflow
-│
+├── docs/                       # Technical Specifications & System Design
+│   ├── ARCHITECTURE.md         # Component breakdown and data flow
+│   ├── EARNING-SYSTEM.md       # CPM mathematical formula and tier matrix
+│   ├── SECURITY.md             # RBAC, GDPR IP hashing, and publisher safeguards
+│   └── API-SPECIFICATION.md    # REST API endpoints and payload schemas
 ├── packages/
-│   └── core-engine/                # Core Business Logic & Analytics Library
-│       ├── src/
-│       │   ├── CpmCalculator.js    # Tiered CPM Revenue Calculation
-│       │   ├── FraudDetector.js    # Bot Detection, IP Hashing & Dwell Verification
-│       │   ├── EeatSchemaBuilder.js# Google NewsArticle JSON-LD Generator
-│       │   └── index.js            # Module Exporter
-│       ├── tests/
-│       │   └── core.test.js        # 100% Native Unit Tests (Node:test)
-│       └── package.json
-│
-├── services/
-│   └── news-engine/                # Live Aggregator & AI Prompt Microservice
-│       ├── public/                 # Modern Responsive Dark UI Dashboard
-│       │   ├── index.html          # Interactive News Deck
-│       │   ├── style.css           # Custom Dark Cyberpunk Styling
-│       │   └── app.js              # Real-Time Filter & 1-Click Prompt Copier
-│       ├── server.js               # Express RSS Streamer & AdSense Safety Engine
-│       ├── start.bat               # 1-Click Windows Launcher
-│       └── package.json
-│
-├── LICENSE                         # MIT Open Source License
-└── README.md                       # Master Architecture & Project Documentation
+│   └── core-engine/            # Tested Core Business Logic
+│       ├── src/                # CpmCalculator, FraudDetector, EeatSchemaBuilder
+│       └── tests/              # Native unit test suite (8 passing)
+└── services/
+    └── news-engine/            # Node.js News Aggregator & UI Deck
+        ├── public/             # Responsive dark UI dashboard
+        └── server.js           # Feed streamer and prompt generator
 ```
 
 ---
 
-## ⚡ Quickstart: Running the Ecosystem
+## Quickstart
 
-### 1. Run Unit Tests (Core Engine)
-The core library requires zero third-party dependencies and runs natively:
+### Running Unit Tests
+The core business engine uses Node's native test runner without third-party dependencies:
 
 ```bash
 cd packages/core-engine
 npm test
 ```
 
-Expected output:
-```text
-✔ CpmCalculator (3 tests)
-✔ FraudDetector (4 tests)
-✔ EeatSchemaBuilder (1 test)
-# tests 8, pass 8, fail 0
-```
-
-### 2. Launch the News Engine Microservice
-Launch the live news curation dashboard and AdSense prompt generator on `http://localhost:3000`:
+### Running the News Engine Microservice
+Launch the local curation deck and prompt compiler on `http://localhost:3000`:
 
 ```bash
 cd services/news-engine
@@ -126,42 +101,41 @@ npm install
 npm start
 ```
 
-Or double-click `start.bat` on Windows.
-
 ---
 
-## 📊 Dynamic Tiered CPM Monetization Matrix
+## Revenue & Monetization Model
+
+Platform earnings follow a verified-engagement CPM model:
 
 $$\text{Earnings} = \left( \frac{\text{Verified Impressions}}{1000} \right) \times \text{Base CPM}_{\text{Tier}} \times \text{Device Multiplier}$$
 
-| Tier | Countries | Base CPM | Device Multiplier |
-| :--- | :--- | :--- | :--- |
-| **Tier 1** | US, UK, Canada, Australia, Germany, France | **\$4.50** | Desktop: 1.15x / Mobile: 1.00x |
-| **Tier 2** | UAE, Saudi Arabia, Singapore, Japan, Malaysia | **\$1.80** | Desktop: 1.15x / Mobile: 1.00x |
-| **Tier 3** | Bangladesh, India, Global Rest | **\$0.65** | Desktop: 1.10x / Mobile: 1.00x |
+* **Tier 1 (US, UK, CA, AU, EU-West):** Base CPM \$4.50
+* **Tier 2 (Gulf Cooperation Council, Singapore, Japan):** Base CPM \$1.80
+* **Tier 3 (South Asia, Rest of World):** Base CPM \$0.65
+* **Engaged Reading Threshold:** Minimum 12-second active dwell time + 25% vertical scroll depth.
 
-*For complete validation criteria, see [EARNING-SYSTEM.md](docs/EARNING-SYSTEM.md).*
-
----
-
-## 🔐 Security & Privacy Standards
-
-* **GDPR IP Anonymization:** Raw client IPs are immediately passed through a keyed HMAC-SHA256 hashing function prior to analytics ingestion.
-* **Anti-Bot Filtering:** Known web crawlers, headless browsers, and automated scraping agents are dropped from the monetization pipeline.
-* **Human Reading Dwell Time:** Impressions require a minimum reading time of 12 seconds and a 25% scroll threshold to prevent F5 refresh exploitation.
-* **AdSense Content Filter:** Prohibits violent, copyright-infringing, or sensitive topics with automatic status categorization.
+*Detailed specifications are available in [docs/EARNING-SYSTEM.md](docs/EARNING-SYSTEM.md).*
 
 ---
 
-## 👨‍💻 Author & Maintainer
+## Technical Specifications & Documentation
+
+* [System Architecture & Data Flow](docs/ARCHITECTURE.md)
+* [Monetization & Anti-Fraud Algorithms](docs/EARNING-SYSTEM.md)
+* [Security, Privacy & AdSense Policy](docs/SECURITY.md)
+* [REST API Specification](docs/API-SPECIFICATION.md)
+
+---
+
+## Author & Maintainer
 
 **Md Shajib Sikder**  
-* Founder & Lead Software Architect, Jagatbarta  
+* Founder & Lead Architect, Jagatbarta  
 * GitHub: [@shajibsikder](https://github.com/shajibsikder)  
 * Production Platform: [jagatbarta.com](https://jagatbarta.com)
 
 ---
 
-## 📄 License
+## License
 
-This repository is licensed under the [MIT License](LICENSE).
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

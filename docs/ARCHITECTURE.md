@@ -1,43 +1,33 @@
-# 🧠 Jagatbarta System Architecture
+# Jagatbarta System Architecture
 
-This document provides a comprehensive technical overview of the **Jagatbarta** digital news and content monetization ecosystem.
+This document provides a comprehensive technical overview of the Jagatbarta digital news and content monetization ecosystem.
 
 ---
 
 ## 1. High-Level Architecture Diagram
 
 ```mermaid
-flowchart TD
-    subgraph ClientLayer ["Client & Ingress Layer"]
-        A1["Desktop & Mobile Readers"] --> B1["Cloudflare CDN & DDoS Protection"]
-        A2["Citizen Journalists & Authors"] --> B1
-        B1 --> B2["Nginx Reverse Proxy & SSL Termination"]
-    end
+graph TD
+    Readers[Desktop and Mobile Readers] --> Edge[Cloudflare CDN and Edge Caching]
+    Authors[Citizen Journalists and Editors] --> Edge
+    Edge --> Nginx[Nginx Reverse Proxy]
 
-    subgraph AppLayer ["Application & Microservices"]
-        B2 --> C1["Blade SSR & Dynamic Presentation Layer"]
-        B2 --> C2["Laravel Core Platform API"]
-        B2 --> C3["Node.js News Engine Microservice (:3000)"]
-        
-        C3 -->|RSS Stream Ingestion| D1["Prothom Alo / Google News Feeds"]
-        C3 -->|Prompt Pipeline| D2["AdSense AI Prompt Generator"]
-    end
+    Nginx --> Presentation[Blade SSR and Web UI]
+    Nginx --> PlatformAPI[Laravel Core Platform API]
+    Nginx --> NewsEngine[Node.js News Engine Microservice]
 
-    subgraph CoreEngine ["@jagatbarta/core-engine"]
-        C2 --> E1["FraudDetector (Anti-Bot & IP Hash)"]
-        C2 --> E2["CpmCalculator (Tiered Revenue Engine)"]
-        C2 --> E3["EeatSchemaBuilder (NewsArticle JSON-LD)"]
-    end
+    NewsEngine --> Feeds[Live Wire RSS Feeds]
+    NewsEngine --> PromptGen[AdSense-Safe Editorial Compiler]
 
-    subgraph StorageLayer ["Data & Persistence Layer"]
-        C2 --> F1[("MySQL 8.0 Primary DB")]
-        C2 --> F2[("Redis Caching & Session Store")]
-    end
+    PlatformAPI --> FraudShield[Fraud Detector and IP Hash]
+    PlatformAPI --> CpmEngine[Tiered CPM Revenue Calculator]
+    PlatformAPI --> SchemaGen[E-E-A-T NewsArticle Schema]
 
-    subgraph ExternalServices ["External Search & Ad Ecosystem"]
-        C1 --> G1["Google Search Engine (Sitemaps & Indexing)"]
-        C1 --> G2["Google AdSense (High-Value Ad Placements)"]
-    end
+    PlatformAPI --> MySQL[(MySQL 8.0 Primary DB)]
+    PlatformAPI --> Redis[(Redis Cache and Session Store)]
+
+    Presentation --> GoogleBot[Google Search Engine]
+    Presentation --> AdSense[Google AdSense]
 ```
 
 ---
@@ -74,19 +64,19 @@ flowchart TD
 ```mermaid
 sequenceDiagram
     autonumber
-    actor Reporter as Citizen Journalist / Editor
+    actor Reporter as Citizen Journalist or Editor
     participant Engine as News Engine Microservice
     participant Core as Jagatbarta Core API
     participant DB as MySQL Database
     participant Google as Google Search / AdSense
 
-    Reporter->>Engine: Fetch daily curated news & generate Master Prompt
+    Reporter->>Engine: Fetch daily curated news and generate Master Prompt
     Engine-->>Reporter: AdSense-Safe, E-E-A-T formatted content
     Reporter->>Core: Submit article (Draft / Pending Review)
-    Core->>DB: Store with SEO metadata & slug
-    Note over Core: Admin editorial approval & fact-checking
-    Core->>DB: Update status to 'Published'
+    Core->>DB: Store with SEO metadata and slug
+    Note over Core: Admin editorial approval and fact-checking
+    Core->>DB: Update status to Published
     Core->>Google: Ping Sitemaps (sitemap-a.xml)
-    Google->>Core: Crawl page & parse NewsArticle JSON-LD schema
+    Google->>Core: Crawl page and parse NewsArticle JSON-LD schema
     Google-->>Reporter: Index and serve high-value AdSense ads
 ```

@@ -1,4 +1,4 @@
-# 🔐 Jagatbarta Security Protocols
+# Jagatbarta Security Protocols
 
 Security, privacy, and editorial integrity are foundational pillars of the Jagatbarta platform.
 

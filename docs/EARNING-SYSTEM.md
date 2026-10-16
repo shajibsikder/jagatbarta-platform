@@ -1,4 +1,4 @@
-# 💰 Jagatbarta Earning System Specification
+# Jagatbarta Earning System Specification
 
 This document details the mathematical models, fraud prevention rules, and monetization mechanics implemented in the Jagatbarta platform.
 
@@ -25,17 +25,17 @@ $$\text{Earnings} = \left( \frac{\text{Verified Impressions}}{1000} \right) \tim
 To protect advertiser ROI and maintain Google AdSense policy compliance, the platform enforces strict criteria before an impression is credited:
 
 ```mermaid
-flowchart LR
-    A["Incoming Visitor Hit"] --> B{"Is Known Bot / Crawler?"}
-    B -- Yes --> R1["Drop (No Earnings)"]
-    B -- No --> C{"Dwell Time >= 12 Seconds?"}
-    C -- No --> R2["Drop (Bounce / Rapid Reload)"]
-    C -- Yes --> D{"Scroll Depth >= 25%?"}
-    D -- No --> R3["Drop (Unread View)"]
-    D -- Yes --> E["Hash IP (HMAC-SHA256)"]
-    E --> F{"Unique in 24h Window?"}
-    F -- No --> R4["Duplicate View Filtered"]
-    F -- Yes --> G["Verified Monetized Impression"]
+graph TD
+    A[Incoming Visitor Hit] --> B{Is Known Bot or Crawler?}
+    B -- Yes --> R1[Drop - No Earnings]
+    B -- No --> C{Dwell Time 12s or More?}
+    C -- No --> R2[Drop - Rapid Bounce]
+    C -- Yes --> D{Scroll Depth 25pct or More?}
+    D -- No --> R3[Drop - Unread View]
+    D -- Yes --> E[Hash IP with HMAC-SHA256]
+    E --> F{Unique in 24h Window?}
+    F -- No --> R4[Filtered - Duplicate View]
+    F -- Yes --> G[Verified Monetized Impression]
 ```
 
 ### Verification Criteria:

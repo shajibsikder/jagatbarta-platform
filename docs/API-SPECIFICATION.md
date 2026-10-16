@@ -1,4 +1,4 @@
-# 📡 Jagatbarta REST API Specification
+# Jagatbarta REST API Specification
 
 This document details the public and authenticated REST API endpoints exposed by the platform ecosystem.
 
