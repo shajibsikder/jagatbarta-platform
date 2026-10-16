@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jagatbarta Automated News Engine & AdSense Master Prompt Generator</title>
+    
+    <!-- Google Fonts & Font Awesome 5 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="navbar-top">
+        <div class="nav-container">
+            <div class="brand-box">
+                <div class="brand-logo">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <div>
+                    <h1 class="brand-title">JAGATBARTA <span>NEWS ENGINE</span></h1>
+                    <p class="brand-subtitle">অটোমেটেড ডেইলি নিউজ ফিড ও অ্যাডসেন্স-সেফ মাস্টার প্রম্পট ইকোসিস্টেম</p>
+                </div>
+            </div>
+
+            <div class="header-right">
+                <div class="live-clock-badge">
+                    <span class="status-pulse"></span>
+                    <span id="currentDateDisplay">আজ ১৬ অক্টোবর ২০২৬</span>
+                </div>
+                <button id="refreshBtn" class="btn-refresh" title="লাইভ ফিড রিফ্রেশ করুন">
+                    <i class="fas fa-sync-alt"></i> <span>রিফ্রেশ</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sub Navigation Tabs -->
+    <div class="tabs-nav-bar">
+        <div class="nav-container">
+            <div class="tabs-list">
+                <button class="tab-btn active" data-tab="feedTab">
+                    <i class="fas fa-newspaper"></i> দৈনিক সংবাদ ফিড
+                </button>
+                <button class="tab-btn" data-tab="customPromptTab">
+                    <i class="fas fa-magic"></i> কাস্টম প্রম্পট মেকার
+                </button>
+                <button class="tab-btn" data-tab="directoryTab">
+                    <i class="fas fa-globe-asia"></i> সংবাদপত্র ডিরেক্টরি (w3newspapers)
+                </button>
+                <button class="tab-btn" data-tab="guideTab">
+                    <i class="fas fa-book-reader"></i> জগৎবার্তা পাবলিশিং গাইড (TOC & FAQ)
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <main class="main-container">
+
+        <!-- ================= TAB 1: NEWS FEED ================= -->
+        <section id="feedTab" class="tab-content active">
+
+            <!-- Stats Overview Bar -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon icon-cyan"><i class="fas fa-newspaper"></i></div>
+                    <div>
+                        <div class="stat-value" id="statTotalCount">--</div>
+                        <div class="stat-label">মোট সংগৃহীত সংবাদ</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon icon-green"><i class="fas fa-calendar-check"></i></div>
+                    <div>
+                        <div class="stat-value" id="statTodayCount">--</div>
+                        <div class="stat-label">আজকের ফ্রেশ সংবাদ</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon icon-gold"><i class="fas fa-shield-alt"></i></div>
+                    <div>
+                        <div class="stat-value" id="statHighValueCount">--</div>
+                        <div class="stat-label">অ্যাডসেন্স হাই-ভ্যালু (E-E-A-T)</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon icon-purple"><i class="fas fa-broadcast-tower"></i></div>
+                    <div>
+                        <div class="stat-value">১২+ শীর্ষ পোর্টাল</div>
+                        <div class="stat-label">প্রথম আলো, ডেইলি স্টার, ইত্যাদি</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filter & Controls Section -->
+            <div class="filter-card">
+                <div class="filter-row-top">
+                    <!-- Date Filter -->
+                    <div class="filter-group">
+                        <label><i class="far fa-calendar-alt"></i> তারিখ সিলেক্ট করুন:</label>
+                        <div class="date-input-wrap">
+                            <input type="date" id="dateFilterInput">
+                            <button type="button" class="btn-date-quick active" id="btnDateToday">আজকের খবর</button>
+                            <button type="button" class="btn-date-quick" id="btnDateYesterday">গতকাল</button>
+                            <button type="button" class="btn-date-quick" id="btnDateAll">সকল তারিখ</button>
+                        </div>
+                    </div>
+
+                    <!-- Safe Filter Toggle -->
+                    <div class="filter-group toggle-group">
+                        <label class="toggle-switch-label">
+                            <input type="checkbox" id="safeOnlyToggle">
+                            <span class="toggle-slider"></span>
+                            <span class="toggle-text"><i class="fas fa-gem text-accent"></i> অ্যাডসেন্স সেইফ / হাই-ভ্যালু অনলি</span>
+                        </label>
+                        <small class="text-muted d-block mt-1">গসিপ ও ক্রাইম এড়িয়ে প্রযুক্তি, স্বাস্থ্য, অর্থনীতি ও তথ্যবহুল সংবাদ</small>
+                    </div>
+
+                    <!-- Source Selector -->
+                    <div class="filter-group">
+                        <label><i class="fas fa-building"></i> সংবাদপত্র / সোর্স:</label>
+                        <select id="sourceSelect" class="form-select">
+                            <option value="all">সবগুলো সংবাদপত্র</option>
+                            <option value="প্রথম আলো">প্রথম আলো</option>
+                            <option value="ডেইলি স্টার">দ্য ডেইলি স্টার</option>
+                            <option value="যুগান্তর">দৈনিক যুগান্তর</option>
+                            <option value="ইত্তেফাক">দৈনিক ইত্তেফাক</option>
+                            <option value="কালের কণ্ঠ">কালের কণ্ঠ</option>
+                            <option value="সময়">সময় সংবাদ</option>
+                            <option value="যমুনা">যমুনা টিভি</option>
+                            <option value="বিডিনিউজ">বিডিনিউজ২৪</option>
+                            <option value="সমকাল">সমকাল</option>
+                            <option value="জাগো নিউজ">জাগো নিউজ</option>
+                        </select>
+                    </div>
+
+                    <!-- Search Box -->
+                    <div class="filter-group search-group">
+                        <label><i class="fas fa-search"></i> সংবাদ খুঁজুন:</label>
+                        <div class="search-input-wrap">
+                            <input type="text" id="searchInput" placeholder="যেকোনো টপিক বা কি-ওয়ার্ড লিখুন...">
+                            <i class="fas fa-search search-icon"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category Pills -->
+                <div class="category-pills-bar">
+                    <span class="pills-label">ক্যাটাগরি:</span>
+                    <button class="cat-pill active" data-cat="all">সব ক্যাটাগরি</button>
+                    <button class="cat-pill pill-gold" data-cat="safe_high_value"><i class="fas fa-star mr-1"></i> অ্যাডসেন্স হাই-ভ্যালু</button>
+                    <button class="cat-pill" data-cat="প্রযুক্তি"><i class="fas fa-laptop-code mr-1"></i> প্রযুক্তি</button>
+                    <button class="cat-pill" data-cat="বিজ্ঞান ও শিক্ষা"><i class="fas fa-graduation-cap mr-1"></i> শিক্ষা ও বিজ্ঞান</button>
+                    <button class="cat-pill" data-cat="স্বাস্থ্য"><i class="fas fa-heartbeat mr-1"></i> স্বাস্থ্য</button>
+                    <button class="cat-pill" data-cat="অর্থনীতি"><i class="fas fa-chart-line mr-1"></i> অর্থনীতি</button>
+                    <button class="cat-pill" data-cat="জাতীয়"><i class="fas fa-flag mr-1"></i> জাতীয়</button>
+                    <button class="cat-pill" data-cat="আন্তর্জাতিক"><i class="fas fa-globe mr-1"></i> আন্তর্জাতিক</button>
+                    <button class="cat-pill" data-cat="খেলাধুলা"><i class="fas fa-futbol mr-1"></i> খেলাধুলা</button>
+                    <button class="cat-pill" data-cat="বিনোদন"><i class="fas fa-film mr-1"></i> বিনোদন</button>
+                </div>
+            </div>
+
+            <!-- News Grid -->
+            <div class="news-section-header">
+                <h2 class="section-heading">
+                    <span id="sectionHeadingText">আজকের ফ্রেশ সংবাদ তালিকা</span>
+                    <span class="results-badge" id="resultsBadge">০টি সংবাদ</span>
+                </h2>
+                <div class="tip-box">
+                    <i class="fas fa-lightbulb text-accent"></i> 
+                    <span>যেকোনো সংবাদের <strong>"1-Click Master Prompt"</strong> বাটনে ক্লিক করে সরাসরি ChatGPT বা Claude-এ পেস্ট করুন।</span>
+                </div>
+            </div>
+
+            <!-- Loader -->
+            <div id="loader" class="loader-box">
+                <div class="spinner"></div>
+                <p>শীর্ষ সংবাদপত্রগুলো থেকে লাইভ সংবাদ আনা হচ্ছে...</p>
+            </div>
+
+            <!-- Empty State -->
+            <div id="emptyState" class="empty-state" style="display:none;">
+                <i class="far fa-newspaper empty-icon"></i>
+                <h3>নির্বাচিত ফিল্টারে কোনো সংবাদ পাওয়া যায়নি</h3>
+                <p>অন্য কোনো তারিখ বা ক্যাটাগরি সিলেক্ট করে আবার চেষ্টা করুন।</p>
+                <button class="btn-action" onclick="resetFilters()">ফিল্টার রিসেট করুন</button>
+            </div>
+
+            <!-- News Cards Container -->
+            <div id="newsGrid" class="news-grid"></div>
+
+        </section>
+
+        <!-- ================= TAB 2: CUSTOM PROMPT MAKER ================= -->
+        <section id="customPromptTab" class="tab-content" style="display: none;">
+            <div class="section-card">
+                <div class="card-head">
+                    <span class="badge-feature"><i class="fas fa-pencil-alt"></i> Manual Generator</span>
+                    <h2>যেকোনো সংবাদ থেকে কাস্টম মাস্টার প্রম্পট তৈরি করুন</h2>
+                    <p>আপনি যদি ফেসবুক, টেলিগ্রাম বা অন্য কোনো সাইটে কোনো দারুণ সংবাদ পান, এখানে হেডলাইন ও লিংক দিলেই স্বয়ংক্রিয়ভাবে ১০০% অ্যাডসেন্স-সেফ মাস্টার প্রম্পট তৈরি হয়ে যাবে।</p>
+                </div>
+
+                <div class="custom-prompt-form">
+                    <div class="form-row">
+                        <div class="form-col">
+                            <label for="customTitle">সংবাদের মূল শিরোনাম *</label>
+                            <input type="text" id="customTitle" class="form-control" placeholder="যেমন: বাংলাদেশ ব্যাংকের নতুন রিজার্ভ পলিসি ঘোষণা...">
+                        </div>
+                    </div>
+
+                    <div class="form-row form-grid-3">
+                        <div class="form-col">
+                            <label for="customSource">সংবাদের সোর্স (পত্রিকার নাম)</label>
+                            <input type="text" id="customSource" class="form-control" placeholder="যেমন: প্রথম আলো / ডেইলি স্টার">
+                        </div>
+                        <div class="form-col">
+                            <label for="customCategory">জগৎবার্তার ক্যাটাগরি</label>
+                            <select id="customCategory" class="form-select">
+                                <option value="জাতীয়">জাতীয়</option>
+                                <option value="প্রযুক্তি">প্রযুক্তি</option>
+                                <option value="অর্থনীতি">অর্থনীতি</option>
+                                <option value="স্বাস্থ্য">স্বাস্থ্য</option>
+                                <option value="শিক্ষা">শিক্ষা</option>
+                                <option value="আন্তর্জাতিক">আন্তর্জাতিক</option>
+                                <option value="খেলাধুলা">খেলাধুলা</option>
+                                <option value="বিনোদন">বিনোদন</option>
+                                <option value="লাইফস্টাইল">লাইফস্টাইল</option>
+                            </select>
+                        </div>
+                        <div class="form-col">
+                            <label for="customLink">সোর্স লিংক (ঐচ্ছিক)</label>
+                            <input type="url" id="customLink" class="form-control" placeholder="https://...">
+                        </div>
+                    </div>
+
+                    <button type="button" id="btnGenCustomPrompt" class="btn-action btn-large">
+                        <i class="fas fa-magic"></i> মাস্টার প্রম্পট জেনারেট করুন
+                    </button>
+                </div>
+
+                <div id="customPromptOutputArea" class="custom-prompt-output" style="display: none;">
+                    <div class="prompt-header-box">
+                        <h3><i class="fas fa-check-circle text-accent"></i> প্রস্তুতকৃত মাস্টার প্রম্পট:</h3>
+                        <div class="btn-group">
+                            <button class="btn-action" id="btnCopyCustomPrompt">
+                                <i class="fas fa-copy"></i> প্রম্পট কপি করুন
+                            </button>
+                            <a href="https://chatgpt.com" target="_blank" class="btn-outline">
+                                <i class="fas fa-external-link-alt"></i> ChatGPT খুলুন
+                            </a>
+                        </div>
+                    </div>
+                    <textarea id="customPromptTextarea" class="prompt-textarea" readonly rows="16"></textarea>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TAB 3: NEWSPAPER DIRECTORY ================= -->
+        <section id="directoryTab" class="tab-content" style="display: none;">
+            <div class="section-card">
+                <div class="card-head">
+                    <span class="badge-feature"><i class="fas fa-link"></i> w3newspapers Directory</span>
+                    <h2>বাংলাদেশের শীর্ষ ও জনপ্রিয় সংবাদপত্রসমূহ</h2>
+                    <p><a href="https://www.w3newspapers.com/bangladesh/" target="_blank" style="color:var(--accent-green);">w3newspapers.com/bangladesh</a>-এর তালিকাভুক্ত শীর্ষ নির্ভরযোগ্য সংবাদপত্র ও নিউজ পোর্টালগুলো নিচে দেওয়া হলো। এক ক্লিকে যেকোনো পোর্টালে ভিজিট করুন:</p>
+                </div>
+
+                <div id="directoryGrid" class="directory-grid"></div>
+            </div>
+        </section>
+
+        <!-- ================= TAB 4: JAGATBARTA WRITING GUIDE ================= -->
+        <section id="guideTab" class="tab-content" style="display: none;">
+            <div class="section-card">
+                <div class="card-head">
+                    <span class="badge-feature"><i class="fas fa-award"></i> Editorial Compliance</span>
+                    <h2>জগৎবার্তা আর্টিকেলের নিয়মাবলি (writing-guide.html অনুযায়ী)</h2>
+                    <p>আমাদের প্রম্পটগুলো এমনভাবে ডিজাইন করা হয়েছে যাতে ChatGPT-র প্রতিটি আউটপুট স্বয়ংক্রিয়ভাবে নিচের সবগুলো ফিচার সফলভাবে সক্রিয় করে:</p>
+                </div>
+
+                <div class="rules-grid">
+                    <div class="rule-box">
+                        <div class="rule-icon"><i class="fas fa-list-ol"></i></div>
+                        <h3>স্বয়ংক্রিয় Table of Contents (TOC)</h3>
+                        <p>আর্টিকেলের ভেতরে কমপক্ষে ৩টি সাব-হেডিং (<code>&lt;h2&gt;</code> বা <code>&lt;h3&gt;</code>) থাকতে হবে। আমাদের মাস্টার প্রম্পট চ্যাটজিপিটিকে স্বয়ংক্রিয়ভাবে ৩টি প্রাসঙ্গিক হেডিং তৈরি করার নির্দেশ দেয়।</p>
+                    </div>
+
+                    <div class="rule-box">
+                        <div class="rule-icon"><i class="fas fa-question-circle"></i></div>
+                        <h3>গুগল FAQ Schema &amp; Accordion</h3>
+                        <p>আর্টিকেলে অবশ্যই প্রশ্নবোধক চিহ্ন (<code>?</code>) যুক্ত কমপক্ষে ২টি <code>&lt;h3&gt;</code> এবং উত্তর <code>&lt;p&gt;</code> থাকতে হবে। এটি সম্পন্ন হলেই আর্টিকেলের নিচে চমৎকার FAQ বক্স ও গুগলের Rich Snippet ট্রিগার হবে।</p>
+                    </div>
+
+                    <div class="rule-box">
+                        <div class="rule-icon"><i class="fas fa-shield-alt"></i></div>
+                        <h3>অ্যাডসেন্স সেফটি (No Low-Value Content)</h3>
+                        <p>শুধুমাত্র ১-২ প্যারাগ্রাফের নিউজ লিখলে অ্যাডসেন্স "Low Value Content" বলে বাতিল করে। আমাদের প্রম্পটে ব্যাকগ্রাউন্ড, ইমপ্যাক্ট অ্যানালিসিস ও পরিসংখ্যান অন্তর্ভুক্ত থাকে — ফলে প্রতিটি আর্টিকেল ৬০০-১০০০+ শব্দের গভীর কন্টেন্ট হয়।</p>
+                    </div>
+
+                    <div class="rule-box">
+                        <div class="rule-icon"><i class="fas fa-mobile-alt"></i></div>
+                        <h3>মোবাইল রিডেবিলিটি ও কোড ফরম্যাটিং</h3>
+                        <p>প্যারাগ্রাফগুলো সর্বোচ্চ ২-৩ বাক্যের হতে হবে। কোড ব্যাকটিক ছাড়া পিওর সিম্যান্টিক HTML-এ আসবে যাতে সরাসরি জগৎবার্তার এডিটরে পেস্ট করা যায়।</p>
+                    </div>
+                </div>
+
+                <div class="quick-link-box mt-4">
+                    <a href="../writing-guide.html" target="_blank" class="btn-action">
+                        <i class="fas fa-external-link-alt"></i> মূল সম্পূর্ণ writing-guide.html দেখুন
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal: Prompt Preview & Copy -->
+    <div id="promptModal" class="modal-backdrop">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <div>
+                    <h3 class="modal-title" id="modalNewsTitle">Master Prompt Preview</h3>
+                    <p class="modal-subtitle" id="modalNewsMeta">প্রথম আলো • প্রযুক্তি • ১৬ অক্টোবর ২০২৬</p>
+                </div>
+                <button class="modal-close" onclick="closePromptModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-actions-bar">
+                    <button class="btn-action" id="modalCopyBtn">
+                        <i class="fas fa-copy"></i> সম্পূর্ণ প্রম্পট কপি করুন
+                    </button>
+                    <a href="https://chatgpt.com" target="_blank" class="btn-outline">
+                        <i class="fas fa-external-link-alt"></i> ChatGPT খুলুন
+                    </a>
+                    <a href="https://claude.ai" target="_blank" class="btn-outline">
+                        <i class="fas fa-external-link-alt"></i> Claude খুলুন
+                    </a>
+                </div>
+                <div class="prompt-preview-container">
+                    <textarea id="modalPromptText" class="prompt-textarea" rows="18" readonly></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toastNotification" class="toast-box">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">প্রম্পট সফলভাবে ক্লিপবোর্ডে কপি হয়েছে!</span>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
