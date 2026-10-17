@@ -9,9 +9,21 @@ All notable changes to Jagatbarta are documented in this file.
 ### Planned
 - Mobile Application (Android & iOS)
 - AI-Powered Content Assistance
-- Advanced Fraud Detection System
-- Multi-Language Support
+- Multi-Language Expanded Microservices
 - Extended Monetization Features
+
+---
+
+## v2.2.0 — Accessibility, Audio Reader & Anti-Fraud Infrastructure (2026-10-17)
+
+### Added
+- **Smart Bilingual Audio Reader:** In-browser Web Speech API implementation supporting Bengali (`bn-BD`) and English (`en-US`) with auto-language detection and sentence-level utterance chunking.
+- **AudioContentEngine:** Standalone core engine module for language classification, AdSense-safe HTML sanitation, and reading time estimation.
+- **Proxy & Datacenter IP Shield:** Integrated `isProxyIP` defense with 24-hour cache and 5-second HTTP timeout guard to mitigate SMM panel spoofing.
+- **Universal Ads Protector:** Consolidated ad slot delivery via `Elements::ads()` with responsive ad containers across all article placements.
+- **reCAPTCHA v3 Score Verification:** Automated risk score evaluation (threshold: 0.5) against automated form abuse.
+- **AdSense Master Editorial Compiler:** 1-click prompt generator with E-E-A-T journalistic guidelines, anti-hallucination policies, and auto-generated TOC/FAQ schemas.
+- **Typography Standardization:** Unified `Hind Siliguri` font stack across public feed, creator portal, and reading layouts.
 
 ---
 

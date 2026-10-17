@@ -68,6 +68,86 @@ describe('Jagatbarta Core Engine Unit Tests', () => {
             assert.strictEqual(hash.length, 64);
             assert.notStrictEqual(hash, '103.205.180.12');
         });
+
+        it('should reject impressions coming from datacenter or proxy IPs', () => {
+            const result = detector.validateImpression({
+                ip: '104.28.19.45',
+                userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
+                dwellTimeSeconds: 30,
+                scrollDepthPercent: 80,
+                isProxy: true
+            });
+            assert.strictEqual(result.isValid, false);
+            assert.strictEqual(result.reason, 'PROXY_OR_VPN_DETECTED');
+        });
+
+        it('should reject impressions where AdBlocker is active', () => {
+            const result = detector.validateImpression({
+                ip: '103.205.180.12',
+                userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
+                dwellTimeSeconds: 40,
+                scrollDepthPercent: 90,
+                hasAdBlocker: true
+            });
+            assert.strictEqual(result.isValid, false);
+            assert.strictEqual(result.reason, 'ADBLOCKER_DETECTED');
+        });
+
+        it('should reject impressions with poor reCAPTCHA v3 score', () => {
+            const result = detector.validateImpression({
+                ip: '103.205.180.12',
+                userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
+                dwellTimeSeconds: 25,
+                scrollDepthPercent: 60,
+                recaptchaScore: 0.2
+            });
+            assert.strictEqual(result.isValid, false);
+            assert.strictEqual(result.reason, 'LOW_RECAPTCHA_SCORE');
+        });
+    });
+
+    describe('AudioContentEngine', () => {
+        const AudioContentEngine = require('../src/AudioContentEngine');
+        const audioEngine = new AudioContentEngine();
+
+        it('should accurately classify language between Bengali and English', () => {
+            assert.strictEqual(audioEngine.detectLanguage('আজকের তাজা খবর ও আন্তর্জাতিক সংবাদ'), 'bn-BD');
+            assert.strictEqual(audioEngine.detectLanguage('Tech innovation and economy report 2026'), 'en-US');
+            assert.strictEqual(audioEngine.detectLanguage(''), 'en-US');
+        });
+
+        it('should strip ads, widgets, and scripts to maintain AdSense compliance', () => {
+            const dirtyHtml = `
+                <div class="ads-wrapper"><span>- Advertisement -</span><ins class="adsbygoogle"></ins></div>
+                <p>বাংলাদেশ দলের দুর্দান্ত জয়।</p>
+                <div class="premium-inline-read-more"><a href="#">আরও পড়ুন</a></div>
+                <p>খেলার বিস্তারিত বিবরণ এখানে রয়েছে।</p>
+                <script>console.log('track');</script>
+            `;
+            const cleanText = audioEngine.sanitizeContent(dirtyHtml);
+            assert.ok(!cleanText.includes('Advertisement'));
+            assert.ok(!cleanText.includes('console.log'));
+            assert.ok(!cleanText.includes('আরও পড়ুন'));
+            assert.ok(cleanText.includes('বাংলাদেশ দলের দুর্দান্ত জয়।'));
+            assert.ok(cleanText.includes('খেলার বিস্তারিত বিবরণ'));
+        });
+
+        it('should chunk Bengali text cleanly by dāṛi without cutting words', () => {
+            const bengaliArticle = 'আজ ঢাকায় বৃষ্টি হতে পারে। তাপমাত্রা কিছুটা কম থাকবে! তবে কাল আবহাওয়া স্বাভাবিক হবে।';
+            const chunks = audioEngine.chunkSentences(bengaliArticle, 'bn-BD');
+            assert.strictEqual(chunks.length, 3);
+            assert.strictEqual(chunks[0], 'আজ ঢাকায় বৃষ্টি হতে পারে।');
+            assert.strictEqual(chunks[1], 'তাপমাত্রা কিছুটা কম থাকবে!');
+            assert.strictEqual(chunks[2], 'তবে কাল আবহাওয়া স্বাভাবিক হবে।');
+        });
+
+        it('should estimate reading duration realistically', () => {
+            const sampleText = 'এক দুই তিন চার পাঁচ ছয় সাত আট নয় দশ '.repeat(24); // 240 words
+            const duration = audioEngine.estimateListeningDuration(sampleText, 'bn-BD');
+            assert.strictEqual(duration.totalWords, 240);
+            assert.strictEqual(duration.minutes, 2);
+            assert.strictEqual(duration.formatted, '2m 0s');
+        });
     });
 
     describe('EeatSchemaBuilder', () => {
@@ -96,3 +176,4 @@ describe('Jagatbarta Core Engine Unit Tests', () => {
         });
     });
 });
+

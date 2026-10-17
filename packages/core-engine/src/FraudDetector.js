@@ -41,21 +41,55 @@ class FraudDetector {
     }
 
     /**
+     * Verifies reCAPTCHA v3 score against a confidence threshold
+     * @param {number} score - Score returned by Google reCAPTCHA (0.0 to 1.0)
+     * @param {number} [minThreshold=0.5]
+     * @returns {boolean}
+     */
+    validateRecaptchaScore(score, minThreshold = 0.5) {
+        if (typeof score !== 'number' || isNaN(score)) return false;
+        return score >= minThreshold;
+    }
+
+    /**
      * Validates whether an article view qualifies as a monetization-eligible impression
      * @param {Object} session
      * @param {string} session.ip - Client IP address
      * @param {string} session.userAgent - Client User Agent
      * @param {number} session.dwellTimeSeconds - Time spent reading article
      * @param {number} session.scrollDepthPercent - Maximum scroll depth (0-100)
+     * @param {boolean} [session.isProxy] - Whether IP is identified as datacenter/VPN/proxy
+     * @param {boolean} [session.hasAdBlocker] - Whether client is blocking publisher advertisements
+     * @param {number} [session.recaptchaScore] - Optional reCAPTCHA v3 risk score (0.0 - 1.0)
      * @returns {{ isValid: boolean, reason: string | null }}
      */
-    validateImpression({ ip, userAgent, dwellTimeSeconds = 0, scrollDepthPercent = 0 }) {
+    validateImpression({ 
+        ip, 
+        userAgent, 
+        dwellTimeSeconds = 0, 
+        scrollDepthPercent = 0,
+        isProxy = false,
+        hasAdBlocker = false,
+        recaptchaScore = 1.0
+    }) {
         if (!ip) {
             return { isValid: false, reason: 'MISSING_CLIENT_IP' };
         }
 
         if (this.isBot(userAgent)) {
             return { isValid: false, reason: 'AUTOMATED_BOT_DETECTED' };
+        }
+
+        if (isProxy) {
+            return { isValid: false, reason: 'PROXY_OR_VPN_DETECTED' };
+        }
+
+        if (hasAdBlocker) {
+            return { isValid: false, reason: 'ADBLOCKER_DETECTED' };
+        }
+
+        if (recaptchaScore < 0.5) {
+            return { isValid: false, reason: 'LOW_RECAPTCHA_SCORE' };
         }
 
         if (dwellTimeSeconds < this.minDwellTimeSeconds) {
