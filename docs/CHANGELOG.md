@@ -4,17 +4,7 @@ All notable changes to Jagatbarta are documented in this file.
 
 ---
 
-## v3.0.0 — Next Generation Ecosystem
-
-### Planned
-- Mobile Application (Android & iOS)
-- AI-Powered Content Assistance
-- Multi-Language Expanded Microservices
-- Extended Monetization Features
-
----
-
-## v2.2.0 — Accessibility, Audio Reader & Anti-Fraud Infrastructure (2026-10-17)
+## v3.1.0 — Smart Audio Engine, Anti-Bot Shield & News Automation (2026-10-17)
 
 ### Added
 - **Smart Bilingual Audio Reader:** In-browser Web Speech API implementation supporting Bengali (`bn-BD`) and English (`en-US`) with auto-language detection and sentence-level utterance chunking.
@@ -24,6 +14,15 @@ All notable changes to Jagatbarta are documented in this file.
 - **reCAPTCHA v3 Score Verification:** Automated risk score evaluation (threshold: 0.5) against automated form abuse.
 - **AdSense Master Editorial Compiler:** 1-click prompt generator with E-E-A-T journalistic guidelines, anti-hallucination policies, and auto-generated TOC/FAQ schemas.
 - **Typography Standardization:** Unified `Hind Siliguri` font stack across public feed, creator portal, and reading layouts.
+
+---
+
+## v3.0.0 — Next Generation Ecosystem (2026-06-10)
+
+### Released
+- Architectural foundation for modular microservices
+- Contributor monetization and CPM calculation engine
+- Real-time event tracking and analytics pipeline
 
 ---
 
