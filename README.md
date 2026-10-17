@@ -24,27 +24,27 @@ Jagatbarta is structured as a modular digital publishing ecosystem that addresse
 
 ```mermaid
 graph TD
-    Readers[Desktop and Mobile Readers] --> Edge[Cloudflare CDN and Edge Caching]
-    Authors[Citizen Journalists and Editors] --> Edge
-    Edge --> Nginx[Nginx Reverse Proxy]
+    Readers["Desktop and Mobile Readers"] --> Edge["Cloudflare CDN & Edge Caching"]
+    Authors["Citizen Journalists & Editors"] --> Edge
+    Edge --> Nginx["Nginx Reverse Proxy"]
 
-    Nginx --> Presentation[Blade SSR and Web UI]
-    Nginx --> PlatformAPI[Laravel Core Platform API]
-    Nginx --> NewsEngine[Node.js News Engine Microservice]
+    Nginx --> Presentation["Blade SSR & Web UI"]
+    Nginx --> PlatformAPI["Laravel Core Platform API"]
+    Nginx --> NewsEngine["Node.js News Engine Microservice"]
 
-    NewsEngine --> Feeds[Live Wire RSS Feeds]
-    NewsEngine --> PromptGen[AdSense-Safe Editorial Compiler]
+    NewsEngine --> Feeds["Live Wire RSS Feeds"]
+    NewsEngine --> PromptGen["AdSense-Safe Editorial Compiler"]
 
-    PlatformAPI --> FraudShield[Fraud Detector, Proxy Filter, reCAPTCHA v3]
-    PlatformAPI --> CpmEngine[Tiered CPM Revenue Calculator]
-    PlatformAPI --> SchemaGen[E-E-A-T NewsArticle Schema]
-    PlatformAPI --> AudioReader[Smart Bilingual Audio Reader Engine]
+    PlatformAPI --> FraudShield["Fraud Detector & Security Shield"]
+    PlatformAPI --> CpmEngine["Tiered CPM Revenue Calculator"]
+    PlatformAPI --> SchemaGen["E-E-A-T NewsArticle Schema"]
+    PlatformAPI --> AudioReader["Smart Bilingual Audio Reader Engine"]
 
-    PlatformAPI --> MySQL[(MySQL 8.0 Primary DB)]
-    PlatformAPI --> Redis[(Redis Cache and Session Store)]
+    PlatformAPI --> MySQL["MySQL Primary Database"]
+    PlatformAPI --> Redis["Redis Cache & Session Store"]
 
-    Presentation --> GoogleBot[Google Search Engine]
-    Presentation --> AdSense[Google AdSense]
+    Presentation --> GoogleBot["Google Search Engine"]
+    Presentation --> AdSense["Google AdSense"]
 ```
 
 ---
